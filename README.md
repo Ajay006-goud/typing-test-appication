@@ -1,1 +1,1 @@
-# typing-test-appication
+# typing-test-application
