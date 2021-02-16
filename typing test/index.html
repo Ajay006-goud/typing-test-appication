@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		*{
+			padding: 0;
+			margin:0;
+			box-sizing: border-box;
+			font-family:sans-serif;
+		}
+		.mainDiv
+		{
+			width: 100%;
+			height: 100vh;
+			position: relative;
+			background-color:#3498db;
+		}
+		.centerDiv
+		{
+			position: absolute;
+			top:50%;
+			left:50%;
+			transform:translate(-50%,-50%);
+			text-align: center;
+		}
+		h1
+		{
+			text-transform: capitalize;
+			text-align: center;
+			margin-bottom:30px;
+			color: #ecf0f1;
+			text-shadow: 1px 2px 3px #2980b9;
+			font-size:2.1rem;
+		}
+		h2
+         {
+         	text-align: center;
+         }
+       textarea
+       {
+       	background-color: #444;
+       	box-shadow: 0 0 1px rgba(0,0,0,0.5);
+       	border-radius: 10px 10px 0 0;
+       	border: 20px solid #34495e;
+       	color:white;
+       	font-size: 1.3rem;
+       }
+       .mainbtn
+       {
+       	padding: 10px 50px;
+       	border-radius: 20px;
+       	border:5px solid #2980b9;
+       	background-color: #ecf0f1;
+       	font-size: 1rem;      
+       }
+	</style>
+</head>
+<body>
+<div class="mainDiv">
+	<div class="centerDiv">
+		<h1>Welcome to typing speed test</h1>
+		<h2 id="msg"></h2>
+
+		<textarea id="mywords" cols="100" rows="10" placeholder="Remember, be nice!"></textarea>
+		<br>
+		<button id="btn" class="mainbtn">Start</button>
+	</div>
+</div>
+
+<script>
+	const setOfWords = [
+	"A Lion lay asleep in the forest, his great head resting on his paws.",
+	 "A timid little Mouse came upon him unexpectedly, and in her fright and haste to get awaye Lion's nose.",
+	 "Roused from his nap, the Lion laid his huge paw angrily on the tiny creature to kill her.",
+
+      "Spare me! begged the poor Mouse.",
+     "Please let me go and some day I will surely repay you.",
+    ];
+const msg = document.getElementById('msg');
+const typeWords = document.getElementById('mywords');
+const btn = document.getElementById('btn');
+let startTime,endTime;
+
+ const playGame = () =>{
+  let randomNumber = Math.floor(Math.random()*setOfWords.length);
+   msg.innerText = setOfWords[randomNumber];
+   let date=new Date();
+   startTime= date.getTime();
+   btn.innerText="Done";
+
+}
+
+const endplay =()=>
+{
+	 let date=new Date();
+   endTime= date.getTime();
+   let totalTime=((endTime-startTime)/1000); 
+   console.log(totalTime);
+
+    let totalStr=typeWords.value;
+   let  wordCount=wordCounter(totalStr);
+
+   let speed=Math.round((wordCount/totalTime)*60);
+   let finalMsg = " you typed total at "+speed+ "world per minnutes";
+   finalMsg += compareWords(msg.innerText,totalStr);
+   msg.innerText= finalMsg;
+}
+const compareWords=(str1,str2)=>
+{
+let words1 = str1.split(" ");
+let words2 = str2.split(" ");
+let cnt = 0;
+words1.forEach(function(item,index){
+if(item==words2[index]){
+ cnt++;
+}
+})
+
+let errorwords=(words1.length-cnt);
+return(cnt +"correct out of"+ words1.length + "words of the total number of errors are"+ errorwords +" .");
+}
+
+const wordCounter=(str)=>
+{
+let response =str.split(" ").length;
+console.log(response);
+return response;
+}
+btn.addEventListener('click', function(){
+	if(this.innerText == 'Start'){
+		typeWords.disabled = false;
+		playGame();
+	}else if(this.innerText=="Done"){
+		typeWords.disabled = true;
+		btn.innerText='Start';
+		endplay();
+	}
+});
+</script>
+</body>
+</html>
